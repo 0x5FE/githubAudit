@@ -1,5 +1,12 @@
 
-- Para instalar o script, siga estas etapas:
+- Este script realiza uma auditoria de segurança nos repositórios GitHub. 
+- Ele verifica configurações de repositório, vulnerabilidades de código aberto e conformidade com padrões de segurança.
+- O script usa um modelo de aprendizado de máquina para detectar vulnerabilidades.
+- O modelo é capaz de detectar padrões de vulnerabilidade, como código vulnerável a ataques comuns como ***SQL Injection, cross-site scripting***
+  
+
+
+
 
 - Clone o repositório do GitHub:
   
