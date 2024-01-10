@@ -40,8 +40,6 @@
 
 - A chave de API do GitHub está correta.
 
-- O modelo de aprendizado de máquina está treinado corretamente.
-
 - O código a ser executado está correto.
   
 
