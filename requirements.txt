@@ -1,0 +1,6 @@
+Python 3.8 ou superior
+requests
+json
+re
+spacy
+code_executor
