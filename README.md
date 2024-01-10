@@ -36,3 +36,10 @@
 - O modelo de aprendizado de máquina está treinado corretamente.
 
 - O código a ser executado está correto.
+  
+
+# Melhorias Futuras.
+
+- [ ] Adicionar suporte para mais padrões de segurança.
+- [ ] Adicionar suporte para mais técnicas de análise de vulnerabilidades.
+- [ ] Atualizar o modelo de aprendizado de máquina para detectar vulnerabilidades mais recentes.
