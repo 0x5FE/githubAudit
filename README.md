@@ -45,6 +45,6 @@
 
 # Melhorias Futuras.
 
-- [ ] Adicionar suporte para mais padrões de segurança.
-- [ ] Adicionar suporte para mais técnicas de análise de vulnerabilidades.
-- [ ] Atualizar o modelo de aprendizado de máquina para detectar vulnerabilidades mais recentes.
+- [X] Adicionar suporte para mais padrões de segurança.
+- [X] Adicionar suporte para mais técnicas de análise de vulnerabilidades.
+- [X] Atualizar o modelo de aprendizado de máquina para detectar vulnerabilidades mais recentes.
