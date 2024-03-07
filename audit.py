@@ -4,9 +4,7 @@ import re
 import spacy
 from code_executor import CodeExecutor
 
-
 def get_repositories(organization):
-    """Obtém uma lista de repositórios do GitHub."""
     url = f"https://api.github.com/orgs/{organization}/repos"
     response = requests.get(url)
     if response.status_code == 200:
@@ -15,39 +13,32 @@ def get_repositories(organization):
     else:
         raise Exception(f"Erro ao obter repositórios: {response.status_code}")
 
-
 def check_configuration(repository):
     """Verifica as configurações do repositório."""
     problems = []
-
     # Verificar branches protegidos
     if not repository.get("branches", {}).get("protected-branches", []):
         problems.append({
             "type": "configuration",
             "name": "Branch `master` não está protegido"
         })
-
     # Verificar revisão de pull requests
     if repository.get("pulls", {}).get("required_reviewers", []) == []:
         problems.append({
             "type": "configuration",
             "name": "Pull requests não são revisados por pelo menos um revisor"
         })
-
     # Verifica políticas de controle de acesso
     if repository.get("collaborators", {}).get("allow_public_contributions", False):
         problems.append({
             "type": "configuration",
             "name": "Políticas de controle de acesso permitem contribuições públicas"
         })
-
     return problems
-
 
 def check_security(repository):
     """Verifica os problemas de segurança do repositório."""
     problems = []
-
     # Verifica vulnerabilidades de código aberto
     vulnerabilities = snyk.scan(repository.get("full_name"))
     for vulnerability in vulnerabilities:
@@ -55,39 +46,40 @@ def check_security(repository):
             "type": "security",
             "name": f"Vulnerabilidade de código aberto '{vulnerability['name']}' encontrada no arquivo '{vulnerability['file']}'"
         })
-
-    # Verifica vulnerabilidades de infraestrutura
     vulnerabilities = detect_vulnerabilidades_infraestrutura_nlp(repository)
     for vulnerability in vulnerabilities:
         problems.append({
             "type": "security",
             "name": f"Vulnerabilidade de infraestrutura '{vulnerability['name']}' encontrada"
         })
-
-    # Verifica vulnerabilidades dinâmicas
     vulnerabilities = detect_vulnerabilidades_dinamicas(repository)
     for vulnerability in vulnerabilities:
         problems.append({
             "type": "security",
             "name": f"Vulnerabilidade dinâmica '{vulnerability['name']}' encontrada"
         })
-
+    # Integração com Checkmarx
+    checkmarx_problems = check_security_with_checkmarx(repository)
+    problems += checkmarx_problems
     return problems
-
 
 def check_compliance(repository):
     """Verifica a conformidade do repositório com padrões de segurança."""
     problems = []
-
     # Verifica conformidade com padrão OWASP Top 10
     if not is_compliant_owasp_top_10(repository):
         problems.append({
             "type": "compliance",
             "name": "O repositório não está em conformidade com o padrão OWASP Top 10"
         })
-
+    # Verificação de conformidade com outros padrões
+    for standard in ["PCI DSS", "HIPAA", "GDPR"]:
+        if not is_compliant_with_standard(repository, standard):
+            problems.append({
+                "type": "compliance",
+                "name": f"O repositório não está em conformidade com o padrão {standard}"
+            })
     return problems
-
 
 def generate_report(problems):
     """Gera um relatório de auditoria."""
@@ -115,7 +107,6 @@ def main():
         problems += check_compliance(repository)
     report = generate_report(problems)
     print(report)
-
 
 if __name__ == "__main__":
     main()
